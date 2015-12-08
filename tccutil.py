@@ -10,6 +10,7 @@ import getopt
 import os
 from platform import mac_ver
 from distutils.version import StrictVersion as version
+from os.path import expanduser
 
 
 ##############################
@@ -25,7 +26,13 @@ util_version = '1.2.1'
 osx_version = version(mac_ver()[0])
 
 # Database Path
-tcc_db = '/Library/Application Support/com.apple.TCC/TCC.db'
+if os.getuid() == 0:
+    # If root, use the local database
+    tcc_db = '/Library/Application Support/com.apple.TCC/TCC.db'
+else:
+    # Otherwise, assume it is a regular user so we should use user TCC.db, which contains the other settings: Calendar, Contacts, etc.
+    home = expanduser("~")
+    tcc_db = home + '/Library/Application Support/com.apple.TCC/TCC.db'
 
 # Set "sudo" to True if called with Admin-Privileges.
 sudo = True if os.getuid() == 0 else False
@@ -65,17 +72,8 @@ def display_help(error_code=None):
   if error_code != None: sys.exit(error_code)
 
 
-def sudo_required():
-  #------------------------
-  if not sudo:
-    print "Error:"
-    print "  When accessing the Accessibility Database, %s needs to be run with admin-privileges.\n" % (util_name)
-    display_help(1)
-
-
 def open_database():
   #------------------------
-  sudo_required()
   global conn
   global c
 
