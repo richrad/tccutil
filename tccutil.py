@@ -39,37 +39,37 @@ verbose = False
 
 def display_version():
   #------------------------
-	print "%s %s" % (util_name, util_version)
+	print("%s %s" % (util_name, util_version))
 	sys.exit(0)
 
 
 def display_help(error_code=None):
   #------------------------
-  print "Usage:"
-  print "  %s [--help | --version]" % (util_name)
-  print "  sudo %s [--list] [--verbose]" % (util_name)
-  print "  sudo %s [--insert | --remove | --enable | --disable] <bundle_id | cli_path> [--verbose]" % (util_name)
-  print ""
-  print "Pass through reset command to built-in OS X utility:"
-  print "  %s reset <Accessibility | AddressBook | Calendar | CoreLocationAgent | Facebook | Reminders | Twitter>" % (util_name)
-  print ""
-  print "Options:"
-  print "  -h | --help      Displays this Help Menu."
-  print "  -l | --list      Lists all Entries in the Accessibility Database."
-  print "  -i | --insert    Adds the given Bundle ID or Path to the Accessibility Database."
-  print "  -r | --remove    Removes the given Bundle ID or Path from the Accessibility Database."
-  print "  -e | --enable    Enables Accessibility Access for the given Bundle ID or Path."
-  print "  -d | --disable   Disables Accessibility Access for the given Bundle ID or Path."
-  print "  -v | --verbose   Outputs additional info for some commands."
-  print "       --version   Prints the current version of this utility."
+  print("Usage:")
+  print("  %s [--help | --version]" % (util_name))
+  print("  sudo %s [--list] [--verbose]" % (util_name))
+  print("  sudo %s [--insert | --remove | --enable | --disable] <bundle_id | cli_path> [--verbose]" % (util_name))
+  print("")
+  print("Pass through reset command to built-in OS X utility:")
+  print("  %s reset <Accessibility | AddressBook | Calendar | CoreLocationAgent | Facebook | Reminders | Twitter>" % (util_name))
+  print("")
+  print("Options:")
+  print("  -h | --help      Displays this Help Menu.")
+  print("  -l | --list      Lists all Entries in the Accessibility Database.")
+  print("  -i | --insert    Adds the given Bundle ID or Path to the Accessibility Database.")
+  print("  -r | --remove    Removes the given Bundle ID or Path from the Accessibility Database.")
+  print("  -e | --enable    Enables Accessibility Access for the given Bundle ID or Path.")
+  print("  -d | --disable   Disables Accessibility Access for the given Bundle ID or Path.")
+  print("  -v | --verbose   Outputs additional info for some commands.")
+  print("       --version   Prints the current version of this utility.")
   if error_code != None: sys.exit(error_code)
 
 
 def sudo_required():
   #------------------------
   if not sudo:
-    print "Error:"
-    print "  When accessing the Accessibility Database, %s needs to be run with admin-privileges.\n" % (util_name)
+    print("Error:")
+    print("  When accessing the Accessibility Database, %s needs to be run with admin-privileges.\n" % (util_name))
     display_help(1)
 
 
@@ -88,7 +88,7 @@ def open_database():
       c = conn.cursor()
       verbose_output("Database opened.\n")
     except:
-      print "Error opening Database."
+      print("Error opening Database.")
       sys.exit(1)
 
 
@@ -104,7 +104,7 @@ def close_database():
       except:
         verbose_output("Database closed.")
     except:
-      print "Error closing Database."
+      print("Error closing Database.")
       sys.exit(1)
   except:
     pass
@@ -122,7 +122,7 @@ def verbose_output(*args):
   if verbose:
     try:
       for a in args:
-        print a
+        print(a)
     except:
       pass
 
@@ -134,7 +134,7 @@ def list_clients():
   verbose_output("Fetching Entries from Database...\n")
   for row in c.fetchall():
     # Print each entry in the Accessibility pane.
-    print row[0]
+    print(row[0])
   verbose_output("")
 
 
@@ -200,8 +200,8 @@ def main():
 
   # If no arguments are specified, show help menu and exit.
   if not sys.argv[1:]:
-    print "Error:"
-    print "  No arguments.\n"
+    print("Error:")
+    print("  No arguments.\n")
     display_help(2)
 
   # Pass reset option to OS X's built-in tccutil.
@@ -218,8 +218,8 @@ def main():
     opts, args = getopt.getopt(sys.argv[1:], "hlvi:r:e:d:", ['help', 'version', 'list', 'verbose', 'insert=', 'remove=', 'enable=', 'disable='])
   except getopt.GetoptError as option_error:
       # If unknown options are specified, show help menu and exit.
-    print "Error:"
-    print "  %s\n" % (option_error)
+    print("Error:")
+    print("  %s\n" % (option_error))
     display_help(2)
 
   # If verbose option is set, set verbose to True and remove all verbose arguments.
